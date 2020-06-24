@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <title>API test</title>
+        <style>
+            html{
+                background-color: black;
+                color: white;
+            }
+        </style>
+</head>
+<body>
+
+    <div>
+        <h2>Here are some APIs:</h2>
+    </div>
+
+    <div>
+        <h3>Filter by category</h3>
+        <div id = "buttons"></div>
+    </div>
+    <br>
+    <br>
+    <br>
+
+
+    <div id = lister>
+    loading...
+    </div>
+
+<script>
+
+    class DataGetter{
+        async loadData (){
+            this.filter = ''
+            const endpoint = `https://api.publicapis.org/entries?category=${this.filter}&https=true`
+            const apis = await fetch(endpoint)
+            const file = await apis.json()
+            this.data = await file.entries
+            
+            const endpointCats = `https://api.publicapis.org/categories`
+            const catsFetch = await fetch(endpointCats)
+            this.catsData = await catsFetch.json()
+        }
+
+        async renderButtons(){
+            await this.loadData()
+            const buttons = document.getElementById('buttons')
+            buttons.innerHTML = `
+                ${this.catsData.map(c => `
+                    <input type="button" value = "${c}">
+                `)}
+            `
+        }
+
+        async renderData(){
+            await this.loadData()
+            const lister = document.getElementById('lister')
+            lister.innerHTML = `
+                ${this.data.map(d =>`
+                    <div>${d.API}</div>
+                    <div>${d.Description}</div>
+                    <div>${d.Link}</div>
+                `)} 
+            `
+
+        }
+    }
+
+    const dataLoader = new DataGetter()
+    dataLoader.renderButtons()
+    dataLoader.renderData()
+
+ 
+
+
+</script>
+
+</body>
+</html>
