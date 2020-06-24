@@ -18,44 +18,63 @@
 
     <div>
         <h3>Filter by category</h3>
-        <div id = "buttons"></div>
+        <div>
+            <button onclick="dataLoader.buttonClick('')">Show All</button>
+            <br>
+            <br>
+
+            <div id = "buttons"></div>
+        </div>
     </div>
     <br>
     <br>
-    <br>
 
-
-    <div id = lister>
-    loading...
+    <div>
+        <h3 id = "CatTitle">APIs</h3>
+        <div id = "lister">
+        loading...
+        </div>
     </div>
 
 <script>
 
     class DataGetter{
-        async loadData (){
+
+        constructor(){
             this.filter = ''
+        }
+
+        async loadData (){
             const endpoint = `https://api.publicapis.org/entries?category=${this.filter}&https=true`
             const apis = await fetch(endpoint)
             const file = await apis.json()
             this.data = await file.entries
-            
+
             const endpointCats = `https://api.publicapis.org/categories`
             const catsFetch = await fetch(endpointCats)
             this.catsData = await catsFetch.json()
+        }
+
+        buttonClick(e){
+            this.filter = e
+            this.renderData()
         }
 
         async renderButtons(){
             await this.loadData()
             const buttons = document.getElementById('buttons')
             buttons.innerHTML = `
-                ${this.catsData.map(c => `
-                    <input type="button" value = "${c}">
+                ${this.catsData
+                    .filter(c => !c.includes('&'))
+                    .map(c => `
+                    <button onclick = "dataLoader.buttonClick('${c}')">${c}</button>
                 `)}
             `
         }
 
         async renderData(){
             await this.loadData()
+
             const lister = document.getElementById('lister')
             lister.innerHTML = `
                 ${this.data.map(d =>`
@@ -64,17 +83,15 @@
                     <div>${d.Link}</div>
                 `)} 
             `
-
+            
+            const title = document.getElementById('CatTitle')
+            title.innerHTML = `${this.filter} APIs`
         }
     }
 
     const dataLoader = new DataGetter()
     dataLoader.renderButtons()
     dataLoader.renderData()
-
- 
-
-
 </script>
 
 </body>
