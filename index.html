@@ -14,7 +14,9 @@
 
     <div>
         <h2>Here are some open APIs:</h2>
-        This page was made using davemachado's public-api: https://github.com/davemachado/public-api
+        This page was made using davemachado's public-api: 
+        <a href="https://github.com/davemachado/public-api" 
+            target="_blank">https://github.com/davemachado/public-api</a> 
     </div>
 
     <div>
@@ -68,7 +70,7 @@
                     .filter(c => !c.includes('&'))
                     .map(c => `
                     <button onclick = "dataLoader.buttonClick('${c}')">${c}</button>
-                `)}
+                `).join('')}
             `
         }
 
@@ -77,11 +79,13 @@
 
             const lister = document.getElementById('lister')
             lister.innerHTML = `
-                ${this.data.map(d =>`
+                ${Array.from(this.data).map(d =>`
                     <div>${d.API}</div>
                     <div>${d.Description}</div>
-                    <div>${d.Link}</div>
-                `)} 
+                    <div>
+                    <a href="${d.Link}" target="_blank">${d.Link}</a>
+                    </div>
+                `).join('<br>')} 
             `
             
             const title = document.getElementById('CatTitle')
