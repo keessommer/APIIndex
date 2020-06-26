@@ -2,11 +2,11 @@
 <html lang="en">
 <head> 
     <meta charset="UTF-8">
-    <title>API index</title>
+    <title>API nexus</title>
         <style>
             :root{
                 --background-color: rgb(105, 134, 172);
-                --font-color:rgb(253, 244, 227);
+                --font-color:rgb(255, 236, 202);
                 --link-color:rgb(243, 142, 83);
             }
 
@@ -28,35 +28,56 @@
                 font-size: 16px;
                 border-radius: 8px;
             }
+
+            .centered{
+                text-align: center;
+                align-content: center;
+            }
         </style>
 </head>
 <body>
+    <br>
+    <br>
 
-    <div>
-        <h2>Here are some public APIs:</h2>
+    <div class = "centered">
+        <h1>Public API nexus</h1>
         This page was made using davemachado's public-api: 
         <a href="https://github.com/davemachado/public-api" style="color:var(--link-color)"
         target="_blank">
             https://github.com/davemachado/public-api</a> 
     </div>
+    <br>
+    <br>
+    <br>
 
-    <div>
-        <h3>Filter by category</h3>
+    <div class="centered">
+        <h2>Filter by category</h2>
+        <br>
+
         <div>
             <button class = "button" onclick="dataLoader.buttonClick('')">Show All</button>
             <br>
             <br>
+            <br>
+
             <div id = "buttons">loading...</div>
         </div>
     </div>
     <br>
     <br>
+    <br>
 
-    <div>
-        <h3 id = "CatTitle">APIs</h3>
+    <div class = "centered">
+        <h2 id = "CatTitle">APIs</h2>
         <div id = "lister">
         loading...
         </div>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        2020 Kees Sommer
     </div>
 
 <script type = "module">
@@ -107,7 +128,10 @@
             const lister = document.getElementById('lister')
             lister.innerHTML = `
                 ${Array.from(this.data).map(d =>`
-                    <div>${d.API}</div>
+                    <br>
+                    <br>
+
+                    <h3>${d.API}</h3>
                     <div>${d.Description}</div>
                     <div>
                     <a href="${d.Link}" style="color:var(--link-color)" target="_blank">
