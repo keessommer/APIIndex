@@ -4,9 +4,29 @@
     <meta charset="UTF-8">
     <title>API index</title>
         <style>
+            :root{
+                --background-color: rgb(105, 134, 172);
+                --font-color:rgb(253, 244, 227);
+                --link-color:rgb(243, 142, 83);
+            }
+
             html{
-                background-color: black;
-                color: white;
+                background-color:var(--background-color);
+                color:var(--font-color);
+                font-family: "Lucida Console", Courier, monospace;
+            }
+
+            .button{
+                background-color: var(--font-color);
+                color:var(--background-color);
+                border-width: 4px;
+                border-color: var(--background-color);
+                padding: 10px 16px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 8px;
             }
         </style>
 </head>
@@ -15,14 +35,15 @@
     <div>
         <h2>Here are some public APIs:</h2>
         This page was made using davemachado's public-api: 
-        <a href="https://github.com/davemachado/public-api" 
-            target="_blank">https://github.com/davemachado/public-api</a> 
+        <a href="https://github.com/davemachado/public-api" style="color:var(--link-color)"
+        target="_blank">
+            https://github.com/davemachado/public-api</a> 
     </div>
 
     <div>
         <h3>Filter by category</h3>
         <div>
-            <button onclick="dataLoader.buttonClick('')">Show All</button>
+            <button class = "button" onclick="dataLoader.buttonClick('')">Show All</button>
             <br>
             <br>
             <div id = "buttons">loading...</div>
@@ -38,8 +59,14 @@
         </div>
     </div>
 
-<script>
+<script type = "module">
+    import {LitElement} from 'https://unpkg.com/lit-element@latest/lit-element.js?module'
 
+    class apiBox extends LitElement{
+
+    }
+</script>
+<script>
     class DataGetter{
 
         constructor(){
@@ -58,7 +85,7 @@
         }
 
         buttonClick(e){
-            this.filter = e
+            this.filter = e.replace('&', '%26')
             this.renderData()
         }
 
@@ -67,9 +94,9 @@
             const buttons = document.getElementById('buttons')
             buttons.innerHTML = `
                 ${this.catsData
-                    .filter(c => !c.includes('&'))
                     .map(c => `
-                    <button onclick = "dataLoader.buttonClick('${c}')">${c}</button>
+                    <button class = "button" 
+                    onclick = "dataLoader.buttonClick('${c}')">${c}</button>
                 `).join('')}
             `
         }
@@ -83,13 +110,14 @@
                     <div>${d.API}</div>
                     <div>${d.Description}</div>
                     <div>
-                    <a href="${d.Link}" target="_blank">${d.Link}</a>
+                    <a href="${d.Link}" style="color:var(--link-color)" target="_blank">
+                        ${d.Link}</a>
                     </div>
                 `).join('<br>')} 
             `
             
             const title = document.getElementById('CatTitle')
-            title.innerHTML = `${this.filter} APIs`
+            title.innerHTML = `${this.filter.replace('%26','&')} APIs`
         }
     }
 
